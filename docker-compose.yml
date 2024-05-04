@@ -1,0 +1,213 @@
+services:
+  webapp-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: kakaa
+      MYSQL_DATABASE: webapp
+
+  redis1:
+    image: redis:latest
+    restart: always
+    cpus: 0.25
+    ports:
+      - "7001:7001"
+    volumes:
+      - ./redis/conf/7001/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: bash -c "redis-server /usr/local/etc/redis/redis.conf && sleep 5 && redis-cli FLUSHALL"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-h", "localhost", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  redis2:
+    image: redis:latest
+    restart: always
+    cpus: 0.25
+    ports:
+      - "7002:7002"
+    volumes:
+      - ./redis/conf/7002/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: bash -c "redis-server /usr/local/etc/redis/redis.conf && sleep 5 && redis-cli FLUSHALL"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-h", "localhost", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  redis3:
+    image: redis:latest
+    restart: always
+    cpus: 0.25
+    ports:
+      - "7003:7003"
+    volumes:
+      - ./redis/conf/7003/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: bash -c "redis-server /usr/local/etc/redis/redis.conf && sleep 5 && redis-cli FLUSHALL"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-h", "localhost", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  redis4:
+    image: redis:latest
+    restart: always
+    cpus: 0.25
+    ports:
+      - "7004:7004"
+    volumes:
+      - ./redis/conf/7004/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: bash -c "redis-server /usr/local/etc/redis/redis.conf && sleep 5 && redis-cli FLUSHALL"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-h", "localhost", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  redis5:
+    image: redis:latest
+    restart: always
+    cpus: 0.25
+    ports:
+      - "7005:7005"
+    volumes:
+      - ./redis/conf/7005/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: bash -c "redis-server /usr/local/etc/redis/redis.conf && sleep 5 && redis-cli FLUSHALL"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-h", "localhost", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  redis6:
+    image: redis:latest
+    restart: always
+    cpus: 0.25
+    ports:
+      - "7006:7006"
+    volumes:
+      - ./redis/conf/7006/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: bash -c "redis-server /usr/local/etc/redis/redis.conf && sleep 5 && redis-cli FLUSHALL"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-h", "localhost", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  redis-cluster:
+    image: redis:latest
+    cpus: 0.25
+    depends_on:
+      - redis1
+      - redis2
+      - redis3
+      - redis4
+      - redis5
+      - redis6
+    environment:
+      WAIT_HOSTS: redis1:7001, redis2:7002, redis3:7003, redis4:7004, redis5:7005, redis6:7006
+    command: bash -c "redis-cli --cluster create redis1:7001 redis2:7002 redis3:7003 redis4:7004 redis5:7005 redis6:7006 --cluster-replicas 1 --cluster-yes"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-h", "localhost", "CLUSTER", "NODES"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+
+  webapp:
+    build:
+      context: .
+      dockerfile: webapp.Dockerfile
+    image: webapp
+
+  webapp-0:
+    image: webapp
+    cpus: 0.5
+    ports:
+      - "8081:8080"
+    depends_on:
+      - webapp-db
+      - redis1
+      - redis2
+      - redis3
+      - redis4
+      - redis5
+      - redis6
+    environment:
+      WAIT_HOSTS: webapp-db:3306, redis1:7001, redis2:7002, redis3:7003, redis4:7004, redis5:7005, redis6:7006
+
+  webapp-1:
+    image: webapp
+    cpus: 0.5
+    ports:
+      - "8082:8080"
+    depends_on:
+      - webapp-db
+      - redis1
+      - redis2
+      - redis3
+      - redis4
+      - redis5
+      - redis6
+    environment:
+      WAIT_HOSTS: webapp-db:3306, redis1:7001, redis2:7002, redis3:7003, redis4:7004, redis5:7005, redis6:7006
+
+  webapp-2:
+    image: webapp
+    cpus: 0.5
+    ports:
+      - "8083:8080"
+    depends_on:
+      - webapp-db
+      - redis1
+      - redis2
+      - redis3
+      - redis4
+      - redis5
+      - redis6
+    environment:
+      WAIT_HOSTS: webapp-db:3306, redis1:7001, redis2:7002, redis3:7003, redis4:7004, redis5:7005, redis6:7006
+
+  webapp-3:
+    image: webapp
+    cpus: 0.5
+    ports:
+      - "8084:8080"
+    depends_on:
+      - webapp-db
+      - redis1
+      - redis2
+      - redis3
+      - redis4
+      - redis5
+      - redis6
+    environment:
+      WAIT_HOSTS: webapp-db:3306, redis1:7001, redis2:7002, redis3:7003, redis4:7004, redis5:7005, redis6:7006
+
+  webapp-haproxy:
+    image: haproxy:latest
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - ./haproxy/conf/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+      - webapp-0
+      - webapp-1
+      - webapp-2
+      - webapp-3
+    environment:
+      WAIT_HOSTS: webapp-0:8081, webapp-1:8082, webapp-2:8083, webapp-3:8084
