@@ -33,7 +33,6 @@ public class OrderController implements OrderApi {
         }
     }
 
-
 //    @RequestMapping(value = "/order", method = RequestMethod.OPTIONS)
 //    public ResponseEntity<?> handleOptionsRequest() {
 //        return ResponseEntity.ok()
