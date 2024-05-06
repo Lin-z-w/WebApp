@@ -172,6 +172,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /search:
+    get:
+      summary: 搜索商品
+      operationId: searchProducts
+      tags:
+        - product
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          description: 搜索关键字
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 搜索结果
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Product:
