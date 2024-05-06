@@ -7,7 +7,7 @@ info:
 paths:
   /product:
     get:
-      summary: List all products
+      summary: 获得所有商品信息
       operationId: listProducts
       tags:
         - product
@@ -26,7 +26,7 @@ paths:
                 $ref: "#/components/schemas/Error"
   /product/{productId}:
     get:
-      summary: Info for a specific product
+      summary: 查看id为productId的商品详情
       operationId: showProductById
       tags:
         - product
@@ -52,13 +52,13 @@ paths:
                 $ref: "#/components/schemas/Error"
   /categories:
     get:
-      summary: List all categories
+      summary: 获得所有类别信息
       operationId: listCategories
       tags:
         - categories
       responses:
         '200':
-          description: A list of categories
+          description: 成功获得所有类别信息
           content:
             application/json:
               schema:
@@ -71,50 +71,59 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /settings:
+
+  /categories/{categoryName}:
     get:
-      summary: 获取设置信息
-      operationId: getSettings
+      summary: 获取类型为categoryName的商品列表
+      operationId: showCategoryByName
       tags:
-        - settings
+        - categories
+      parameters:
+        - name: categoryName
+          in: path
+          required: true
+          description: 商品类别名称
+          schema:
+            type: string
       responses:
         '200':
-          description: 返回设置信息
+          description: 成功获取该类别的商品列表
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    settings:
-                      type: object
-                      properties:
-                        app:
-                          type: string
-                        store:
-                          type: string
-                        address_one:
-                          type: string
-                        address_two:
-                          type: string
-                        contact:
-                          type: string
-                        tax:
-                          type: string
-                        symbol:
-                          type: string
-                        percentage:
-                          type: string
-                        footer:
-                          type: string
-                        img:
-                          type: string
-                    id:
-                      type: string
+                  $ref: "#/components/schemas/Product"
+        '404':
+          description: 该类别不存在或者没有商品属于该类别
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /order:
+    get:
+      summary: 获取所有订单信息
+      operationId: listOrders
+      tags:
+        - order
+      responses:
+        '200':
+          description: A paged array of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     post:
-      summary: Create an order
+      summary: 提交一个订单
       operationId: createOrder
       tags:
         - order
@@ -137,7 +146,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
+  /order/{orderId}:
+    get:
+      summary: 获取订单id为orderId的订单详情
+      operationId: showOrderById
+      tags:
+        - order
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          description: The id of the order to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Product:
@@ -168,13 +202,13 @@ components:
     Category:
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
     Order:
       type: object
       properties:
+        id:
+          type: string
         items:
           type: array
           items:
