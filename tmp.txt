@@ -1,5 +1,0 @@
-Failed to execute goal org.apache.maven.plugins:maven-dependency-plugin:3.6.1:go-offline (default-cli) on project webpos: Execution default-cli of goal org.apache.maven.plugins:maven-dependency-plugin:3
-.6.1:go-offline failed: Plugin org.apache.maven.plugins:maven-dependency-plugin:3.6.1 or one of its dependencies could not be resolved: The following artifacts could not be resolved: org.apache.maven.reporting:maven-
-reporting-impl:jar:3.2.0 (absent), org.apache.maven:maven-core:jar:3.1.0 (absent): Could not transfer artifact org.apache.maven.reporting:maven-reporting-impl:jar:3.2.0 from/to central (https://repo.maven.apache.org/
-maven2): Remote host terminated the handshake: SSL peer shut down incorrectly
-
