@@ -7,12 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Item {
-    private Product product;
+public class OrderItem {
+    private String id;
     private int quantity;
-
-    @Override
-    public String toString() {
-        return product.toString() + "\t" + quantity;
-    }
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.webapp.mapper.ProductMapper.mapToDto;
+import static com.example.webapp.mapper.ProductMapper.productToDto;
 
 @RestController
 public class ProductController implements ProductApi {
@@ -30,7 +30,7 @@ public class ProductController implements ProductApi {
         System.out.println("ProductController.showProductById() called with productId: " + productId);
         Product product = productService.getProductById(productId);
         if (product != null) {
-            ProductDto productDto = mapToDto(product);
+            ProductDto productDto = productToDto(product);
             return ResponseEntity.ok(productDto);
         } else {
             return ResponseEntity.notFound().build();
@@ -41,7 +41,7 @@ public class ProductController implements ProductApi {
     public ResponseEntity<List<ProductDto>> listProducts() {
         System.out.println("ProductController.listProducts() called");
         List<ProductDto> productDtos = productService.getAllProducts().stream()
-                .map(ProductMapper::mapToDto)
+                .map(ProductMapper::productToDto)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(productDtos);
     }

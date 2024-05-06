@@ -11,7 +11,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Product implements Serializable {
     private String id; // 修改为 int 类型，以匹配数据库中的主键类型
-    //    private int id2;
     private double price;
     private String category;
     private int quantity;

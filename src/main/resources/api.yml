@@ -50,32 +50,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /categories:
-    get:
-      summary: 获得所有类别信息
-      operationId: listCategories
-      tags:
-        - product
-      responses:
-        '200':
-          description: 成功获得所有类别信息
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Category"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
   /categories/{categoryName}:
     get:
       summary: 获取类型为categoryName的商品列表
-      operationId: showCategoryByName
+      operationId: showProductsByCategory
       tags:
         - product
       parameters:
@@ -172,15 +150,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /search:
+  /search/{keyword}:
     get:
-      summary: 搜索商品
-      operationId: searchProducts
+      summary: 搜索关键字为keyword的商品
+      operationId: searchProductsByKeyword
       tags:
         - product
       parameters:
         - name: keyword
-          in: query
+          in: path
           required: true
           description: 搜索关键字
           schema:
@@ -200,6 +178,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
 components:
   schemas:
     Product:
@@ -227,11 +206,6 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Product"
-    Category:
-      type: object
-      properties:
-        name:
-          type: string
     Order:
       type: object
       properties:

@@ -33,12 +33,13 @@ public class OrderController implements OrderApi {
         }
     }
 
-    @RequestMapping(value = "/order", method = RequestMethod.OPTIONS)
-    public ResponseEntity<?> handleOptionsRequest() {
-        return ResponseEntity.ok()
-                .header("Access-Control-Allow-Origin", "http://localhost:63342")
-                .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-                .header("Access-Control-Allow-Headers", "Content-Type, Accept")
-                .build();
-    }
+
+//    @RequestMapping(value = "/order", method = RequestMethod.OPTIONS)
+//    public ResponseEntity<?> handleOptionsRequest() {
+//        return ResponseEntity.ok()
+//                .header("Access-Control-Allow-Origin", "http://localhost:63342")
+//                .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+//                .header("Access-Control-Allow-Headers", "Content-Type, Accept")
+//                .build();
+//    }
 }
