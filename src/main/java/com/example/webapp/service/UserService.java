@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+import static com.example.webapp.utils.IDUtils.generateUniqueId;
+
 @Service
 public class UserService {
 
@@ -26,18 +28,13 @@ public class UserService {
             return false;
         } else {
             // 如果不存在，生成用户ID
-            String userId = generateUserId();
+            String userId = generateUniqueId();
             // 设置用户ID
             user.setId(userId);
             // 保存用户
             userRepository.save(user);
             return true;
         }
-    }
-
-    private String generateUserId() {
-        // 在这里编写生成用户ID的逻辑，可以使用 UUID 或其他方法来生成唯一的字符串
-        return UUID.randomUUID().toString();
     }
 
     public User findUserByUsername(String username) {

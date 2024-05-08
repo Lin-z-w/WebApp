@@ -50,7 +50,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /categories/{categoryName}:
+  /product/category/{categoryName}:
     get:
       summary: 获取类型为categoryName的商品列表
       operationId: showProductsByCategory
@@ -78,7 +78,57 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
+  /product/uploadProduct:
+    post:
+      summary: 上传商品接口
+      operationId: uploadProduct
+      tags:
+        - product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                  format: double
+                category:
+                  type: string
+                stock:
+                  type: integer
+                img:
+                  type: string
+      responses:
+        '200':
+          description: 上传成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 1
+                  data:
+                    type: string
+                    example: "Product uploaded successfully."
+        default:
+          description: 上传失败
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+                  message:
+                    type: string
+                    example: "Failed to upload product."
   /order:
     get:
       summary: 获取所有订单信息
@@ -150,34 +200,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /search/{keyword}:
-    get:
-      summary: 搜索关键字为keyword的商品
-      operationId: searchProductsByKeyword
-      tags:
-        - product
-      parameters:
-        - name: keyword
-          in: path
-          required: true
-          description: 搜索关键字
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 搜索结果
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Product"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+
+#  /search/{keyword}:
+#    get:
+#      summary: 搜索关键字为keyword的商品
+#      operationId: searchProductsByKeyword
+#      tags:
+#        - product
+#      parameters:
+#        - name: keyword
+#          in: path
+#          required: true
+#          description: 搜索关键字
+#          schema:
+#            type: string
+#      responses:
+#        '200':
+#          description: 搜索结果
+#          content:
+#            application/json:
+#              schema:
+#                type: array
+#                items:
+#                  $ref: "#/components/schemas/Product"
+#        default:
+#          description: unexpected error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/Error"
 
   /login:
     post:
@@ -287,7 +338,9 @@ paths:
                   code:
                     type: integer
                     example: -1
-  uplodaImage:
+
+
+  /uploadImage:
     post:
       summary: 上传图片接口
       operationId: uploadImage

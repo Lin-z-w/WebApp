@@ -26,4 +26,7 @@ public interface ProductRepository {
 
     @Select("SELECT * FROM products WHERE id IN (#{productIds}) for update")
     List<Product> getProductByIds(List<String> productIds);
+
+    @Select("SELECT * FROM products WHERE category = #{categoryName}")
+    List<Product> getProductsByCategory(String categoryName);
 }
