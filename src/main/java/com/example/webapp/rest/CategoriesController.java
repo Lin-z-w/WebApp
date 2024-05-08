@@ -1,14 +1,12 @@
 package com.example.webapp.rest;
 
 import com.example.webapp.rest.api.CategoriesApi;
-import com.example.webapp.rest.dto.CategoryDto;
 import com.example.webapp.rest.dto.ProductDto;
 import com.example.webapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class CategoriesController implements CategoriesApi {

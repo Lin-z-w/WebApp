@@ -287,6 +287,46 @@ paths:
                   code:
                     type: integer
                     example: -1
+  uplodaImage:
+    post:
+      summary: 上传图片接口
+      operationId: uploadImage
+      tags:
+        - image
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: 上传成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 1
+                  data:
+                    type: string
+                    example: "https://example.com/image.jpg"
+        default:
+          description: 上传失败
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
 components:
   schemas:
     Product:

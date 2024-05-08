@@ -15,11 +15,9 @@ CREATE TABLE IF NOT EXISTS user
     id       VARCHAR(36)  NOT NULL,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email    VARCHAR(255),
     PRIMARY KEY (id),
     UNIQUE KEY (username)
 );
-
 
 INSERT IGNORE INTO products (id, name, price, category, quantity, stock, img)
 VALUES ('10022912289359', 'JAVA新款24款JAVA鱼雷6-SILURO6-TOP公路车纯油压碟刹24速105套件蓝图 灰色 XS码 24速', 3999.00,
@@ -103,3 +101,5 @@ VALUES ('10022912289359', 'JAVA新款24款JAVA鱼雷6-SILURO6-TOP公路车纯油
         49.90, 'unknown', 100, 1,
         'https://img13.360buyimg.com/n7/jfs/t1/235853/28/15150/73346/661497c6Fbad2a896/ededdb2b8a6b4c89.jpg.avif');
 
+INSERT IGNORE INTO user (id, username, password)
+VALUES (1, 'admin', '123456');

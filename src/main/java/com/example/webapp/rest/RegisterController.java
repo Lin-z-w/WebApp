@@ -24,7 +24,10 @@ public class RegisterController implements RegisterApi {
     public ResponseEntity<LoginUser200ResponseDto> registerUser(@RequestBody LoginUserRequestDto loginUserRequestDto) {
         String username = loginUserRequestDto.getUsername();
         String password = loginUserRequestDto.getPassword();
+        System.out.println("Registering user: " + username);
+        System.out.println("Password: " + password);
 
+        // 调用 UserService 注册用户
         boolean registered = userService.registerUser(new User("", username, password));
 
         if (registered) {
