@@ -3,7 +3,7 @@
         <el-dialog :visible.sync="dialogTableVisible" title="商品详情" :close-on-click-modal="false" >
             <div style="display: flex;">
                 <span style="margin-right: 20px">
-                    <img :src="require('@/assets/' + showProduct.img)" alt="商品图片" style="height: 200px" />
+                    <img :src="showProduct.img" alt="商品图片" style="height: 200px" />
                 </span>
                 <span style="font-size: 20px; font-weight: 800">
                     <p>商品名称： {{ showProduct.name }}</p>

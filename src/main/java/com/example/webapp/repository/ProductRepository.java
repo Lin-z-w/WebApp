@@ -29,4 +29,5 @@ public interface ProductRepository {
 
     @Select("SELECT * FROM products WHERE category = #{categoryName}")
     List<Product> getProductsByCategory(String categoryName);
+
 }

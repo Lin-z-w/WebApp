@@ -37,18 +37,9 @@ public class ProductService {
         product.setName(uploadProductRequestDto.getName());
         product.setPrice(uploadProductRequestDto.getPrice());
         product.setCategory(uploadProductRequestDto.getCategory());
-        productRepository.saveProduct(product);
+        product.setStock(uploadProductRequestDto.getStock());
+        product.setImg(uploadProductRequestDto.getImg());
+        product.setQuantity(0);
+        productRepository.addProduct(product);
     }
-
-//    @Cacheable(value = "categories")
-//    public List<String> getAllCategories() {
-//        return productRepository.getAllProducts().stream()
-//                .map(Product::getCategory)
-//                .distinct()
-//                .collect(Collectors.toList());
-//    }
-
-//    public List<Product> searchProductsByName(String name) {
-//        return productRepository.findByNameContaining(name);
-//    }
 }
