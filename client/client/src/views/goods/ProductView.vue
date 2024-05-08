@@ -39,18 +39,25 @@
                     <el-input v-model.number="form.price" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="商品种类">
+                <el-form-item label="商品种类" prop="category" :rules="[
+                    { required: true, message: '种类不能为空'},
+                    ]"
+                >
                     <el-select v-model="form.category" placeholder="请选择商品种类">
                     <el-option label="书籍" value="book"></el-option>
                     <el-option label="食品" value="food"></el-option>
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="商品图片">
+                <el-form-item label="商品图片" prop="picture" :rules="[
+                    { required: true, message: '必须上传图片'},
+                    ]"
+                >
                     <el-upload
                         class="upload-demo"
                         drag
                         :action="uploadUrl('/uploadImage')"
+                        :on-success="loadImgUrl"
                     >
                         <i class="el-icon-upload"></i>
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -248,7 +255,23 @@ export default {
             this.displayProducts = this.filterProducts.slice(index, index + this.pageSize);
         },
         addProduct(){
-            console.log(this.form.name + "  " + this.form.stock + " " + this.form.category)
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    this.$axios.post(this.$store.state.backendPort + '/product/uploadProduct', this.form, {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }}
+                    )
+                    .then(response => {
+                        console.log(response.data.data);
+                    })
+                    .catch(error => {
+                        console.log('error ' + error);
+                    });
+                } else {
+                    console.log('upload fail');
+                }
+            });
         },
         handleQuantity(num, id, price){
             this.$store.commit('changeProductQuantity', {'num': num, 'id': id, 'price': price});
@@ -259,6 +282,9 @@ export default {
         },
         uploadUrl(path){
             return this.$store.state.backendPort + path;
+        },
+        loadImgUrl(response){
+            this.form.img = response.data.data;
         }
     },
     mounted() {
