@@ -23,7 +23,7 @@
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
 
-                <el-form-item label="数量" prop="stock" :rules="[
+                <el-form-item label="商品数量" prop="stock" :rules="[
                     { required: true, message: '数量不能为空'},
                     { type: 'number', message: '数量必须为数字值'}
                     ]"
@@ -31,11 +31,31 @@
                     <el-input v-model.number="form.stock" autocomplete="off"></el-input>
                 </el-form-item>
 
+                <el-form-item label="商品单价" prop="price" :rules="[
+                    { required: true, message: '价格不能为空'},
+                    { type: 'number', message: '价格必须为数字值'}
+                    ]"
+                >
+                    <el-input v-model.number="form.price" autocomplete="off"></el-input>
+                </el-form-item>
+
                 <el-form-item label="商品种类">
-                    <el-select v-model="form.region" placeholder="请选择商品种类">
+                    <el-select v-model="form.category" placeholder="请选择商品种类">
                     <el-option label="书籍" value="book"></el-option>
                     <el-option label="食品" value="food"></el-option>
                     </el-select>
+                </el-form-item>
+
+                <el-form-item label="商品图片">
+                    <el-upload
+                        class="upload-demo"
+                        drag
+                        :action="uploadUrl('/uploadImage')"
+                    >
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
                 </el-form-item>
 
                 <el-form-item>
@@ -200,9 +220,10 @@ export default {
             // 新增商品
             form: {
                 name: '',
-                region: '',
-                date1: '',
-                date2: '',
+                stock: 0,
+                price: 0,
+                category: '',
+                img: '',
             },
         }
     },
@@ -227,7 +248,7 @@ export default {
             this.displayProducts = this.filterProducts.slice(index, index + this.pageSize);
         },
         addProduct(){
-
+            console.log(this.form.name + "  " + this.form.stock + " " + this.form.category)
         },
         handleQuantity(num, id, price){
             this.$store.commit('changeProductQuantity', {'num': num, 'id': id, 'price': price});
@@ -235,6 +256,9 @@ export default {
         showDetail(product){
             this.showProduct = product;
             this.dialogTableVisible = true;
+        },
+        uploadUrl(path){
+            return this.$store.state.backendPort + path;
         }
     },
     mounted() {
