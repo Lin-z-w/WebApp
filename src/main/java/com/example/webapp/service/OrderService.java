@@ -22,7 +22,7 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-    @CacheEvict(value = "products", allEntries = true)
+//    @CacheEvict(value = "products", allEntries = true)
     @Transactional
     public OrderDto createOrder(OrderDto orderDto) {
 

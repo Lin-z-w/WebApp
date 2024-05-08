@@ -42,7 +42,9 @@ public class UploadImgController implements UploadImageApi {
             Files.copy(file.getInputStream(), filePath);
 
             // 构造返回的图片 URL
-            String url = "http://localhost:8080/" + uniqueFileName;
+            String url = "http://localhost:3000/" + uniqueFileName;
+
+            System.out.println(url);
 
             return ResponseEntity.ok(new UploadImage200ResponseDto().code(1).data(url));
         } catch (IOException e) {

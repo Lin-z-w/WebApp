@@ -49,10 +49,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="商品图片" prop="picture" :rules="[
-                    { required: true, message: '必须上传图片'},
-                    ]"
-                >
+                <el-form-item label="商品图片">
                     <el-upload
                         class="upload-demo"
                         drag
@@ -236,7 +233,7 @@ export default {
     },
     methods: {
         handleSearch(){
-            this.filterProducts = this.products.filter(p => this.searchValue === "" || p.name === this.searchValue);
+            this.filterProducts = this.products.filter(p => this.searchValue === "" || p.name.includes(this.searchValue));
             this.total = this.filterProducts.length;
             this.pageSize = 12;
             this.currentPage = 1;
@@ -257,7 +254,7 @@ export default {
         addProduct(){
             this.$refs.form.validate(valid => {
                 if (valid) {
-                    this.$axios.post(this.$store.state.backendPort + '/product/uploadProduct', this.form, {
+                    axios.post(this.$store.state.backendPort + '/product/uploadProduct', this.form, {
                         headers: {
                             'Content-Type': 'application/json'
                         }}
@@ -284,7 +281,8 @@ export default {
             return this.$store.state.backendPort + path;
         },
         loadImgUrl(response){
-            this.form.img = response.data.data;
+            console.log(response.data);
+            this.form.img = response.data;
         },
         truncateText(name){
             const maxLength = 10; // 设置最大长度
@@ -340,10 +338,8 @@ export default {
   }
 
   .product-image {
-    max-width: 100px;
-    max-height: 100px;
-    width: auto; 
-    height: auto; 
+    width: 100px;
+    height: 100px;
   }   
 
   .footer {
