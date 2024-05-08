@@ -154,7 +154,7 @@
                     <el-main style="background-color: #fff; color: #333">
                         <el-row class="product-grid">
                             <el-col :span="6" v-for="product in displayProducts" :key="product.id">
-                                <el-card :header="product.name" style="font-size: 20px; font-weight: 600">
+                                <el-card :header="truncateText(product.name)" style="font-size: 20px; font-weight: 600;">
                                     <div style="display: flex; justify-content: space-between">
                                         <span @click="showDetail(product)">
                                             <img :src="product.img" class="product-image" />
@@ -285,6 +285,10 @@ export default {
         },
         loadImgUrl(response){
             this.form.img = response.data.data;
+        },
+        truncateText(name){
+            const maxLength = 10; // 设置最大长度
+            return name.length > maxLength ? name.slice(0, maxLength) + '...' : name;
         }
     },
     mounted() {
