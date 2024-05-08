@@ -201,7 +201,7 @@ services:
     image: haproxy:latest
     ports:
       - "80:80"
-      - "8080:8080"
+      - "3000:3000"
     volumes:
       - ./haproxy/conf/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
     depends_on:
