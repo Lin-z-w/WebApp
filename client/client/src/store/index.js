@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     totalPrice: 0,
     productsInCar: [],
-    backendPort: "localhost:8080",
+    backendPort: "http://localhost:8080",
   },
   getters: {
   },

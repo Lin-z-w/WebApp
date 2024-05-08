@@ -157,7 +157,7 @@
                                 <el-card :header="product.name" style="font-size: 20px; font-weight: 600">
                                     <div style="display: flex; justify-content: space-between">
                                         <span @click="showDetail(product)">
-                                            <img :src="require('@/assets/' + product.img)" class="product-image" />
+                                            <img :src="product.img" class="product-image" />
                                         </span>
                                         <el-input-number v-model="product.quantity" @change="handleQuantity(product.quantity, product.id, product.price)" :min="0" :max="10" label="count" style="z-index: 0"></el-input-number>
                                     </div>
@@ -288,7 +288,7 @@ export default {
         }
     },
     mounted() {
-        axios.get("http://localhost:3000/product").then((result) => {
+        axios.get(this.$store.state.backendPort + "/product").then((result) => {
             this.products = result.data;
 
             this.showProduct = this.products[0];
