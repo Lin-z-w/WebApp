@@ -211,3 +211,15 @@ services:
       - webapp-3
     environment:
       WAIT_HOSTS: webapp-0:8081, webapp-1:8082, webapp-2:8083, webapp-3:8084
+
+#  minio:
+#    image: minio/minio
+#    container_name: minio
+#    ports:
+#      - "9000:9000"
+#    environment:
+#      MINIO_ACCESS_KEY: your_access_key
+#      MINIO_SECRET_KEY: your_secret_key
+#    volumes:
+#      - ./minio_data:/data
+#    command: server /data
