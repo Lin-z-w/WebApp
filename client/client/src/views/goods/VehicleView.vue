@@ -302,7 +302,7 @@ export default {
 
             this.showProduct = this.products[0];
 
-            this.filterProducts = this.products.filter(p => p.category === 'food');
+            this.filterProducts = this.products.filter(p => p.category === 'vehicle');
             this.total = this.filterProducts.length;
             this.updateDisplay();
             this.$store.state.productsInCar.forEach(info => {

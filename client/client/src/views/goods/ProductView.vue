@@ -46,6 +46,7 @@
                     <el-select v-model="form.category" placeholder="请选择商品种类">
                     <el-option label="书籍" value="book"></el-option>
                     <el-option label="食品" value="food"></el-option>
+                    <el-option label="交通工具" value="vehicle"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -107,6 +108,13 @@
                         <el-menu-item index="1-2">
                             <i class="el-icon-food"></i>
                             食品
+                        </el-menu-item>
+                        </router-link>
+
+                        <router-link to="/product/vehicle" class="no-display">
+                        <el-menu-item index="1-2">
+                            <i class="el-icon-bicycle"></i>
+                            交通工具
                         </el-menu-item>
                         </router-link>
                     </el-submenu>
@@ -281,7 +289,6 @@ export default {
             return this.$store.state.backendPort + path;
         },
         loadImgUrl(response){
-            console.log(response.data);
             this.form.img = response.data;
         },
         truncateText(name){
