@@ -24,6 +24,9 @@ public class UploadImgController implements UploadImageApi {
     // 文件上传目录路径
     private static final String UPLOAD_DIR = "src/main/resources/static/";
 
+    @Value("${server.port}")
+    private String port;
+
     @Override
     public ResponseEntity<UploadImage200ResponseDto> uploadImage(MultipartFile file) {
         System.out.println("uploadImage");
@@ -44,8 +47,9 @@ public class UploadImgController implements UploadImageApi {
             Path filePath = uploadPath.resolve(uniqueFileName);
             Files.copy(file.getInputStream(), filePath);
 
+
             // 构造返回的图片 URL
-            String url = "http://localhost:3000/" + uniqueFileName;
+            String url = "http://localhost:"+ port + "/" + uniqueFileName;
 
             System.out.println(url);
 
