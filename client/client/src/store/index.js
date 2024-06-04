@@ -7,7 +7,14 @@ export default new Vuex.Store({
   state: {
     totalPrice: 0,
     productsInCar: [],
-    backendPort: "http://localhost:8080",
+    backendPort: "http://localhost:3000",
+    user: {
+      username: '',
+      email: '',
+      address: '',
+      identity: '',
+      img: '',
+    }
   },
   getters: {
   },
@@ -26,6 +33,13 @@ export default new Vuex.Store({
       }
       state.totalPrice = price;
     },
+    setUser(state, info){
+      state.username = info.name;
+      state.email = info.email;
+      state.address = info.address;
+      state.identity = info.identity;
+      state.img = info.img;
+    }
   },
   actions: {
   },
