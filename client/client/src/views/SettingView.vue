@@ -237,8 +237,7 @@ export default {
                     .then(response => {
                         if(response.status == 200){
                             this.$store.commit('setUser', { 'token': this.$store.state.user.token, 'userInfo': response.data.data });
-                        }else{
-                            alert("提交失败");
+                            this.$message.success('修改成功');
                         }
                     })
                     .catch(error => {

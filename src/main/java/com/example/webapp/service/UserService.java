@@ -42,17 +42,16 @@ public class UserService {
         // 充值
         User user = userRepository.findByUsername(username);
         user.setBalance(user.getBalance() + amount);
-        userRepository.save(user);
+        userRepository.updateUserBalance(user);
     }
 
-    public void updateUserInfo(String username, String password, String email, String address, String phone, String img) {
+    public void updateUserInfo(String username, String email, String address, String phone, String img) {
         // 更新用户信息
         User user = userRepository.findByUsername(username);
-        user.setPassword(password);
         user.setEmail(email);
         user.setAddress(address);
         user.setPhone(phone);
         user.setImg(img);
-        userRepository.save(user);
+        userRepository.updateUserInformation(user);
     }
 }

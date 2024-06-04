@@ -36,20 +36,18 @@ public class UserController implements UserApi {
         System.out.println("updateUserInfo");
 
         String username = updateUserInfoRequestDto.getUsername();
-        String password = updateUserInfoRequestDto.getPassword();
         String email = updateUserInfoRequestDto.getEmail();
         String address = updateUserInfoRequestDto.getAddress();
         String phone = updateUserInfoRequestDto.getPhone();
         String img = updateUserInfoRequestDto.getImg();
 
         System.out.println("username: " + username);
-        System.out.println("password: " + password);
         System.out.println("email: " + email);
         System.out.println("address: " + address);
         System.out.println("phone: " + phone);
         System.out.println("img: " + img);
 
-        userService.updateUserInfo(username, password, email, address, phone, img);
+        userService.updateUserInfo(username, email, address, phone, img);
 
         return new ResponseEntity<>(new CreateOrder200ResponseDto().code(1), HttpStatus.OK);
     }

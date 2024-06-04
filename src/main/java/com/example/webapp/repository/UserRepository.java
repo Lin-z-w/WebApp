@@ -4,6 +4,7 @@ import com.example.webapp.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserRepository {
@@ -16,4 +17,7 @@ public interface UserRepository {
 
     @Insert("UPDATE users SET balance = #{balance} WHERE username = #{username}")
     void updateUserBalance(User user);
+
+    @Update("UPDATE users SET email = #{email}, address = #{address}, img = #{img}, phone = #{phone} WHERE username = #{username}")
+    void updateUserInformation(User user);
 }
