@@ -296,7 +296,6 @@ export default {
         },
         uploadHeaders(){
             return {
-                'Content-Type': 'application/json',
                 'token': this.$store.state.user.token,
             }
         }

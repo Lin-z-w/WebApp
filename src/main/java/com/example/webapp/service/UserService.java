@@ -45,7 +45,7 @@ public class UserService {
         userRepository.updateUserBalance(user);
     }
 
-    public void updateUserInfo(String username, String email, String address, String phone, String img) {
+    public User updateUserInfo(String username, String email, String address, String phone, String img) {
         // 更新用户信息
         User user = userRepository.findByUsername(username);
         user.setEmail(email);
@@ -53,5 +53,6 @@ public class UserService {
         user.setPhone(phone);
         user.setImg(img);
         userRepository.updateUserInformation(user);
+        return user;
     }
 }

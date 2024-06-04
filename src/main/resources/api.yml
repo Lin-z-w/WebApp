@@ -429,7 +429,7 @@ paths:
                   code:
                     type: integer
                     example: 1
-                  userInfo:
+                  data:
                     $ref: "#/components/schemas/User"
         '401':
           description: 修改失败

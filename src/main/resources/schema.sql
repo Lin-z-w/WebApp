@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS products
     category VARCHAR(50),
     quantity INT,
     stock    INT,
-    img      VARCHAR(255)
+    img      VARCHAR(1024)
 );
 
 CREATE TABLE IF NOT EXISTS users
@@ -16,21 +16,21 @@ CREATE TABLE IF NOT EXISTS users
     password VARCHAR(255) NOT NULL,
     email    VARCHAR(255) NOT NULL,
     address  VARCHAR(255),
-    img      VARCHAR(255),
+    img      VARCHAR(1024),
     phone    VARCHAR(20),
     balance  DOUBLE PRECISION DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS orders
 (
-    id VARCHAR(255) PRIMARY KEY,
-    orderDate VARCHAR(255),
+    id          VARCHAR(255) PRIMARY KEY,
+    orderDate   VARCHAR(255),
     productName VARCHAR(255),
-    quantity INT,
-    totalPrice DOUBLE,
-    address VARCHAR(255),
-    phone VARCHAR(255),
-    img VARCHAR(255)
+    quantity    INT,
+    totalPrice  DOUBLE,
+    address     VARCHAR(255),
+    phone       VARCHAR(255),
+    img         VARCHAR(1024)
 );
 
 
