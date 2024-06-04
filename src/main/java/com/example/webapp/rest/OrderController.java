@@ -1,12 +1,13 @@
 package com.example.webapp.rest;
 
 import com.example.webapp.rest.api.OrderApi;
+import com.example.webapp.rest.dto.CreateOrder200ResponseDto;
 import com.example.webapp.rest.dto.OrderDto;
+import com.example.webapp.rest.dto.OrderListDto;
 import com.example.webapp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,11 +21,16 @@ public class OrderController implements OrderApi {
     }
 
     @Override
-    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
-        System.out.println("Creating order: " + orderDto);
+    public ResponseEntity<OrderDto> showOrderById(String orderId) {
+        return OrderApi.super.showOrderById(orderId);
+    }
+
+    @Override
+    public ResponseEntity<CreateOrder200ResponseDto> createOrder(OrderListDto orderListDto) {
+        System.out.println("Creating order: " + orderListDto);
         try {
-            OrderDto createdOrder = orderService.createOrder(orderDto);
-            return new ResponseEntity<>(createdOrder, HttpStatus.OK);
+            orderService.createOrder(orderListDto);
+            return new ResponseEntity<>(new CreateOrder200ResponseDto().code(1), HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println("Error creating order: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -3,7 +3,8 @@ package com.example.webapp.service;
 import com.example.webapp.model.Product;
 import com.example.webapp.repository.ProductRepository;
 import com.example.webapp.rest.dto.OrderDto;
-import com.example.webapp.rest.dto.OrderItemsInnerDto;
+import com.example.webapp.rest.dto.OrderListDto;
+import com.example.webapp.rest.dto.OrderListItemsInnerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -24,16 +25,16 @@ public class OrderService {
 
 //    @CacheEvict(value = "products", allEntries = true)
     @Transactional
-    public OrderDto createOrder(OrderDto orderDto) {
+    public void createOrder(OrderListDto orderListDto) {
 
         // 获取订单中所有商品的信息
-        List<String> productIds = orderDto.getItems().stream()
-                .map(OrderItemsInnerDto::getId)
+        List<String> productIds = orderListDto.getItems().stream()
+                .map(OrderListItemsInnerDto::getId)
                 .collect(Collectors.toList());
         List<Product> products = productRepository.getProductByIds(productIds);
 
         // 检查每个商品的库存是否足够
-        for (OrderItemsInnerDto item : orderDto.getItems()) {
+        for (OrderListItemsInnerDto item : orderListDto.getItems()) {
             Product product = products.stream()
                     .filter(p -> p.getId().equals(item.getId()))
                     .findFirst()
@@ -44,7 +45,7 @@ public class OrderService {
         }
 
         // 如果所有商品库存足够，则逐个减少库存量
-        for (OrderItemsInnerDto item : orderDto.getItems()) {
+        for (OrderListItemsInnerDto item : orderListDto.getItems()) {
             Product product = products.stream()
                     .filter(p -> p.getId().equals(item.getId()))
                     .findFirst()
@@ -57,8 +58,6 @@ public class OrderService {
 
         // 在此处实现订单创建的逻辑，可能涉及到数据库的插入操作等
 
-        // 返回创建的订单信息
-        return orderDto;
     }
 
 }

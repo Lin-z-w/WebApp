@@ -130,26 +130,6 @@ paths:
                     type: string
                     example: "Failed to upload product."
   /order:
-    get:
-      summary: 获取所有订单信息
-      operationId: listOrders
-      tags:
-        - order
-      responses:
-        '200':
-          description: A paged array of orders
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Order"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
     post:
       summary: 提交一个订单
       operationId: createOrder
@@ -160,20 +140,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Order"
+              $ref: "#/components/schemas/OrderList"
       responses:
         '200':
           description: Order created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
-        default:
-          description: Unexpected error
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 1
+        '400':
+          description: Invalid order data
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+                  message:
+                    $ref: "#/components/schemas/Error"
+
   /order/{orderId}:
     get:
       summary: 获取订单id为orderId的订单详情
@@ -311,6 +302,8 @@ paths:
                   type: string
                 address:
                   type: string
+                phone:
+                  type: string
               required:
                 - username
                 - password
@@ -365,6 +358,8 @@ paths:
                 email:
                   type: string
                 address:
+                  type: string
+                phone:
                   type: string
                 img:
                   type: string
@@ -503,6 +498,8 @@ components:
           type: string
         img:
           type: string
+        phone:
+          type: string
         balance:
           type: number
           format: double
@@ -511,6 +508,22 @@ components:
       items:
         $ref: "#/components/schemas/Product"
     Order:
+      type: object
+      properties:
+        orderId:
+          type: string
+        username:
+          type: string
+        productId:
+          type: string
+        quantity:
+          type: integer
+        totalPrice:
+          type: number
+          format: double
+        img:
+          type: string
+    OrderList:
       type: object
       properties:
         id:

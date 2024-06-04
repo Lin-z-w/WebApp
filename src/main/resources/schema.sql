@@ -17,11 +17,12 @@ CREATE TABLE IF NOT EXISTS user
     email    VARCHAR(255) NOT NULL,
     address  VARCHAR(255),
     img      VARCHAR(255),
+    phone    VARCHAR(20),
     balance  DOUBLE PRECISION DEFAULT 0
 );
 
-INSERT IGNORE INTO user (username, password, email, address, img, balance)
-VALUES ('admin', '123456', 'admin@localhost', 'admin address', 'admin.jpg', 1000000);
+INSERT IGNORE INTO user (username, password, email, address, img, phone, balance)
+VALUES ('admin', '123456', 'admin@localhost', 'admin address', 'admin.jpg', '1234567890', 0);
 
 INSERT IGNORE INTO products (id, name, price, category, quantity, stock, img)
 VALUES ('', '900 压缩饼干90干粮家庭应急长期储备食品户外代餐饱腹即食充饥抗饿 90饼干10斤铁桶装含全脂奶粉 5kg', 189.00,
