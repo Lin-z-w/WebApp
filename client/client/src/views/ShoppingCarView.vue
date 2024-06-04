@@ -181,6 +181,11 @@ export default {
                 category: '',
                 img: '',
             },
+
+            orders:{
+                username: this.$store.state.user.username,
+                items:[]
+            }
         }
     },
     methods: {
@@ -261,26 +266,26 @@ export default {
                     });
                     return;
                 }else{
-                    axios.post(this.$store.state.backendPort + '/login', this.loginForm, {
+                    this.$store.state.productsInCar.forEach(p => this.orders.items.push({id: p.id, quantity: p.quantity}));
+                    this.orders.username = this.$store.state.user.username;
+                    axios.post(this.$store.state.backendPort + '/order', this.orders, {
                         headers: {
                             'Content-Type': 'application/json',
                             'token': this.$store.state.user.token,
                         }}
                     )
                     .then(response => {
+                        this.orders = [];
                         if(response.status == 200){
-                            this.$store.commit('setUser', { 'token': response.data.data.token, 'userInfo': response.data.data.userInfo });
-                            this.$router.push('/product');
+                            this.$store.commit('setBalance', { balance: this.$store.state.user.balance - this.$store.state.totalPrice });
+                            this.$store.commit('clearCar');
+                            this.$message.success('购买成功');
                         }
                     })
                     .catch(() => {
-                        this.$message("用户名或密码错误！");
+                        this.orders = [];
+                        this.$message.warning("无效的订单数据");
                     });
-                    this.$message({
-                        type: 'success',
-                        message: '购买成功!'
-                    });
-                    return;
                 }
             }).catch(() => {
                 this.$message({

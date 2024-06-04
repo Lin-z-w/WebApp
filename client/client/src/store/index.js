@@ -47,6 +47,10 @@ export default new Vuex.Store({
     },
     setBalance(state, info){
       state.user.balance = info.balance;
+    },
+    clearCar(state){
+      state.totalPrice = 0.0;
+      state.productsInCar = [];
     }
   },
   actions: {
