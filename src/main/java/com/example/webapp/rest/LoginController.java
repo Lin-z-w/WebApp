@@ -28,9 +28,12 @@ public class LoginController implements LoginApi {
     @Override
     public ResponseEntity<LoginUser200ResponseDto> loginUser(@RequestBody LoginUserRequestDto loginUserRequestDto) {
         // 根据用户名查询用户
+        System.out.println("loginUserRequestDto: " + loginUserRequestDto);
         User user = userService.findUserByUsername(loginUserRequestDto.getUsername());
 
         if (user != null && user.getPassword().equals(loginUserRequestDto.getPassword())) {
+            System.out.println("登录成功");
+
             // 登录成功，生成 JWT token
             String jwtToken = generateToken(loginUserRequestDto.getUsername());
 
@@ -43,6 +46,8 @@ public class LoginController implements LoginApi {
             responseDto.setData(data);
             return ResponseEntity.ok(responseDto);
         } else {
+            System.out.println("登录失败");
+
             // 登录失败，返回登录失败的响应
             LoginUser200ResponseDto responseDto = new LoginUser200ResponseDto();
             responseDto.setCode(0);

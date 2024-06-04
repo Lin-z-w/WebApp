@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.registerForm.validate((valid) => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
             axios.post(this.$store.state.backendPort + '/login', this.loginForm, {
                 headers: {
@@ -49,7 +49,7 @@ export default {
             .then(response => {
                 console.log(response.data.data);
                 if(response.status == 200){
-                    this.$store.commit('setUser', { 'token': response.data.token, 'userInfo': response.data.userInfo });
+                    this.$store.commit('setUser', { 'token': response.data.data.token, 'userInfo': response.data.data.userInfo });
                     this.$router.push('/product');
                 }else{
                     alert("登录失败！");
