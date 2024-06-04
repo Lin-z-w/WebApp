@@ -49,7 +49,7 @@ export default {
             .then(response => {
                 console.log(response.data.data);
                 if(response.status == 200){
-                    this.$store.commit('setUser', {'name': response.data.name, 'email': response.data.email, 'address': response.data.address, 'identity': response.data.identity, 'img': response.data.img});
+                    this.$store.commit('setUser', { 'token': response.data.token, 'userInfo': response.data.userInfo });
                     this.$router.push('/product');
                 }else{
                     alert("登录失败！");

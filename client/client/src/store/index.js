@@ -12,8 +12,9 @@ export default new Vuex.Store({
       username: '',
       email: '',
       address: '',
-      identity: '',
+      token: '',
       img: '',
+      balance: 0.0,
     }
   },
   getters: {
@@ -34,11 +35,13 @@ export default new Vuex.Store({
       state.totalPrice = price;
     },
     setUser(state, info){
-      state.username = info.name;
-      state.email = info.email;
-      state.address = info.address;
-      state.identity = info.identity;
-      state.img = info.img;
+      state.identity = info.token;
+
+      state.username = info.userInfo.username;
+      state.email = info.userInfo.email;
+      state.address = info.userInfo.address;
+      state.img = info.userInfo.img;
+      state.balance = info.userInfo.balance;
     }
   },
   actions: {
