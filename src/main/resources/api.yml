@@ -262,8 +262,14 @@ paths:
                     type: integer
                     example: 1
                   data:
-                    type: string
-                    example: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleGFtcGxlVXNlciIsInVzZXJJZCI6IjEyMzQ1NiJ9.IZ_7uPnXgdT_cowGstQ3L8lBdRrVh8il_CvM7n4GQV4"
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleGFtcGxlVXNlciIsInVzZXJJZCI6IjEyMzQ1NiJ9.IZ_7uPnXgdT_cowGstQ3L8lBdRrVh8il_CvM7n4GQV4"
+                      userInfo:
+                        $ref: "#/components/schemas/User"
+
         '401':
           description: 登录失败
           content:
@@ -301,6 +307,10 @@ paths:
                   type: string
                 password:
                   type: string
+                email:
+                  type: string
+                address:
+                  type: string
               required:
                 - username
                 - password
@@ -315,9 +325,6 @@ paths:
                   code:
                     type: integer
                     example: 1
-                  data:
-                    type: string
-                    example: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleGFtcGxlVXNlciIsInVzZXJJZCI6IjEyMzQ1NiJ9.IZ_7uPnXgdT_cowGstQ3L8lBdRrVh8il_CvM7n4GQV4"
         '409':
           description: 用户名已存在
           content:
@@ -402,6 +409,22 @@ components:
           type: integer
         img:
           type: string
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        img:
+          type: string
+        balance:
+          type: number
+          format: double
     Products:
       type: array
       items:
