@@ -212,7 +212,7 @@ export default {
             dialogFormVisible: false,
             rechargeFormVisible: false, 
             form: {
-                name: this.$store.state.user.username,
+                username: this.$store.state.user.username,
                 email: this.$store.state.user.email,
                 phone: this.$store.state.user.telephone,
                 address: this.$store.state.user.address,
@@ -242,7 +242,7 @@ export default {
                         }
                     })
                     .catch(error => {
-                        if(error.data.code == -2){
+                        if(error.code == -2){
                             this.$message('用户尚未登录！');
                             this.$router.push('/login');
                             return;
@@ -280,7 +280,7 @@ export default {
                         }
                     })
                     .catch(error => {
-                        if(error.data.code == -2){
+                        if(error.code == -2){
                             this.$message('用户尚未登录！');
                             this.$router.push('/login');
                             return;
@@ -303,7 +303,7 @@ export default {
         ).then((result) => {
             this.$store.commit('setUser', { 'token': this.$store.state.user.token, 'userInfo': result.data.data });
         }).catch(error => {
-            if(error.data.code == -2){
+            if(error.code == -2){
                 this.$message('用户尚未登录！');
                 this.$router.push('/login');
                 return;

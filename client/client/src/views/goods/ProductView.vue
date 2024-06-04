@@ -272,7 +272,7 @@ export default {
                         console.log(response.data.data);
                     })
                     .catch(error => {
-                        if(error.data.code == -2){
+                        if(error.code == -2){
                             this.$message('用户尚未登录！');
                             this.$router.push('/login');
                         }
@@ -322,7 +322,7 @@ export default {
             });
         })
         .catch(error => {
-            if(error.data.code == -2){
+            if(error.code == -2){
                 this.$message('用户尚未登录！');
                 this.$router.push('/login');
                 return;
