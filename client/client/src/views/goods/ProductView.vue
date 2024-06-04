@@ -55,6 +55,7 @@
                         class="upload-demo"
                         drag
                         :action="uploadUrl('/uploadImage')"
+                        :headers="uploadHeaders()"
                         :on-success="loadImgUrl"
                     >
                         <i class="el-icon-upload"></i>
@@ -298,6 +299,12 @@ export default {
         truncateText(name){
             const maxLength = 10; // 设置最大长度
             return name.length > maxLength ? name.slice(0, maxLength) + '...' : name;
+        },
+        uploadHeaders(){
+            return {
+                'Content-Type': 'application/json',
+                'token': this.$store.state.user.token,
+            }
         }
     },
     mounted() {

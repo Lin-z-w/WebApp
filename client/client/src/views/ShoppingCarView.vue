@@ -252,16 +252,40 @@ export default {
             this.$confirm('是否确认购买', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                type: 'warning'
+                type: 'info'
             }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
+                if(this.$store.state.totalPrice > this.$store.state.user.balance){
+                    this.$message({
+                        type: 'warning',
+                        message: '余额不足!'
+                    });
+                    return;
+                }else{
+                    axios.post(this.$store.state.backendPort + '/login', this.loginForm, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'token': this.$store.state.user.token,
+                        }}
+                    )
+                    .then(response => {
+                        if(response.status == 200){
+                            this.$store.commit('setUser', { 'token': response.data.data.token, 'userInfo': response.data.data.userInfo });
+                            this.$router.push('/product');
+                        }
+                    })
+                    .catch(() => {
+                        this.$message("用户名或密码错误！");
+                    });
+                    this.$message({
+                        type: 'success',
+                        message: '购买成功!'
+                    });
+                    return;
+                }
             }).catch(() => {
                 this.$message({
                     type: 'info',
-                    message: '已取消删除'
+                    message: '已取消购买'
                 });          
             });
         }

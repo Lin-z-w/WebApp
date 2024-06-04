@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    totalPrice: 0,
+    totalPrice: 0.0,
     productsInCar: [],
     backendPort: "http://localhost:3000",
     user: {

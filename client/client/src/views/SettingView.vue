@@ -28,6 +28,7 @@
                         class="upload-demo"
                         drag
                         :action="uploadUrl('/uploadImage')"
+                        :headers="uploadHeaders()"
                         :on-success="loadImgUrl"
                     >
                         <i class="el-icon-upload"></i>
@@ -292,6 +293,12 @@ export default {
         },
         exit(){
             this.$router.push('/login');
+        },
+        uploadHeaders(){
+            return {
+                'Content-Type': 'application/json',
+                'token': this.$store.state.user.token,
+            }
         }
     },
     mounted() {
