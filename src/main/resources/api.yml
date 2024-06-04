@@ -572,12 +572,16 @@ components:
         totalPrice:
           type: number
           format: double
+        address:
+          type: string
+        phone:
+          type: string
         img:
           type: string
     OrderList:
       type: object
       properties:
-        id:
+        username:
           type: string
         items:
           type: array
