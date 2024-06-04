@@ -563,7 +563,7 @@ components:
     Order:
       type: object
       properties:
-        orderId:
+        orderDate:
           type: string
         productName:
           type: string
