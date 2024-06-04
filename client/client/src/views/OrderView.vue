@@ -184,7 +184,7 @@ export default {
         }).then((result) => {
             this.tableData = result.data;
         }).catch(error => {
-            if(error.code == -2){
+            if(error.response.data.code == -2){
                 this.$message('用户尚未登录！');
                 this.$router.push('/login');
                 return;

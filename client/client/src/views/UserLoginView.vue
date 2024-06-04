@@ -47,16 +47,13 @@ export default {
                 }}
             )
             .then(response => {
-                console.log(response.data.data);
                 if(response.status == 200){
                     this.$store.commit('setUser', { 'token': response.data.data.token, 'userInfo': response.data.data.userInfo });
                     this.$router.push('/product');
-                }else{
-                    alert("登录失败！");
                 }
             })
             .catch(error => {
-                console.log('error ' + error);
+                this.$message("用户名或密码错误！");
             });
         } else {
           console.log('表单验证失败')
