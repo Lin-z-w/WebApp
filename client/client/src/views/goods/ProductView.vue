@@ -322,7 +322,9 @@ export default {
             });
         })
         .catch(error => {
-            if(error.code == -2){
+            console.log(error);
+            console.log("SB");
+            if(error.response.data.code == -2){
                 this.$message('用户尚未登录！');
                 this.$router.push('/login');
                 return;

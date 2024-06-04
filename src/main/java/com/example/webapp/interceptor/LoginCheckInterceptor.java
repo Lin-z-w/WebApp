@@ -2,6 +2,7 @@ package com.example.webapp.interceptor;
 
 import com.example.webapp.rest.dto.ErrorDto;
 import com.example.webapp.utils.JwtUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -23,8 +24,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         if (!StringUtils.hasLength(jwt)) {
             System.out.println("JWT is missing in the request header");
             ErrorDto error = new ErrorDto(-2, "NOT_LOGIN");
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonError = mapper.writeValueAsString(error);
             response.setStatus(401);
-            response.getWriter().write(error.toString());
+            response.getWriter().write(jsonError);
             return false;
         }
 
@@ -33,8 +36,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         } catch (Exception e) {
             System.out.println("JWT is invalid");
             ErrorDto error = new ErrorDto(-2, "INVALID_JWT");
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonError = mapper.writeValueAsString(error);
             response.setStatus(401);
-            response.getWriter().write(error.toString());
+            response.getWriter().write(jsonError);
             return false;
         }
 

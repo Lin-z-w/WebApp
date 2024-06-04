@@ -51,7 +51,7 @@ public class LoginController implements LoginApi {
             // 登录失败，返回登录失败的响应
             LoginUser200ResponseDto responseDto = new LoginUser200ResponseDto();
             responseDto.setCode(0);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDto);
+            return ResponseEntity.status(401).body(responseDto);
         }
     }
 }
