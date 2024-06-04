@@ -429,6 +429,8 @@ paths:
                   code:
                     type: integer
                     example: 1
+                  userInfo:
+                    $ref: "#/components/schemas/User"
         '401':
           description: 修改失败
           content:
