@@ -17,7 +17,7 @@ public class RechargeController implements RechargeApi {
 
     @Override
     public ResponseEntity<Recharge200ResponseDto> recharge(RechargeRequestDto rechargeRequestDto) {
-        userService.recharge(rechargeRequestDto.getAmount());
+        userService.recharge(rechargeRequestDto.getUsername(),rechargeRequestDto.getAmount());
         return ResponseEntity.ok(new Recharge200ResponseDto());
     }
 }
