@@ -9,8 +9,8 @@
           <el-input type="password" v-model="loginForm.password"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="onSubmit">登录</el-button>
-            <el-button type="success" @click="goToReg">注册</el-button>
+            <el-button type="primary" @click="onSubmit()">登录</el-button>
+            <el-button type="success" @click="goToReg()">注册</el-button>
         </el-form-item>
       </el-form>
     </div>

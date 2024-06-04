@@ -11,11 +11,14 @@
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="registerForm.email"></el-input>
         </el-form-item>
-        <el-form-item label="地址" prop="password">
+        <el-form-item label="地址" prop="address">
           <el-input v-model="registerForm.address"></el-input>
         </el-form-item>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="registerForm.phone"></el-input>
+        </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="onSubmit">注册</el-button>
+            <el-button type="primary" @click="onSubmit">完成注册</el-button>
             <el-button type="info" @click="goToLogin">返回登录界面</el-button>
         </el-form-item>
       </el-form>
@@ -33,7 +36,8 @@ export default {
         username: '',
         email: '',
         password: '',
-        address: ''
+        address: '',
+        phone: ''
       },
       rules: {
         username: [
@@ -50,6 +54,10 @@ export default {
         ],
         address: [
           { required: true, message: '请输入地址', trigger: 'blur' },
+        ],
+        phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { min: 11, max:11, message: '手机号必须为11位', trigger: 'blur' }
         ]
       }
     }

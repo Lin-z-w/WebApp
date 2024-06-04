@@ -9,11 +9,12 @@ export default new Vuex.Store({
     productsInCar: [],
     backendPort: "http://localhost:3000",
     user: {
-      username: '',
-      email: '',
-      address: '',
+      username: '张三',
+      email: '1122334@smail.nju.edu.cn',
+      address: '中南海',
       token: '',
-      img: '',
+      img: 'https://img2.baidu.com/it/u=47693696,2281322100&fm=253&fmt=auto&app=138&f=JPEG?w=608&h=583',
+      telephone: '15127772888',
       balance: 0.0,
     }
   },
@@ -35,13 +36,17 @@ export default new Vuex.Store({
       state.totalPrice = price;
     },
     setUser(state, info){
-      state.identity = info.token;
+      state.user.token = info.token;
 
-      state.username = info.userInfo.username;
-      state.email = info.userInfo.email;
-      state.address = info.userInfo.address;
-      state.img = info.userInfo.img;
-      state.balance = info.userInfo.balance;
+      state.user.username = info.userInfo.username;
+      state.user.email = info.userInfo.email;
+      state.user.address = info.userInfo.address;
+      state.user.img = info.userInfo.img;
+      state.user.telephone = info.userInfo.phone;
+      state.user.balance = info.userInfo.balance;
+    },
+    setBalance(state, info){
+      state.user.balance = info.balance;
     }
   },
   actions: {
