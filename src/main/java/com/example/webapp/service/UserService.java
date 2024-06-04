@@ -37,4 +37,9 @@ public class UserService {
         // 根据用户名查询用户
         return userRepository.findByUsername(username);
     }
+
+    public void recharge(Double amount) {
+        // 充值
+
+    }
 }

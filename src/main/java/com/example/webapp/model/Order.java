@@ -10,6 +10,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
-    String id;
-    List<OrderItem> items;
+    private String id;
+    private String username;
+    private String orderDate;
+    private String productName;
+    private int quantity;
+    private double totalPrice;
+    private String address;
+    private String phone;
+    private String img;
 }

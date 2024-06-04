@@ -295,6 +295,8 @@ paths:
             schema:
               type: object
               properties:
+                username:
+                  type: string
                 amount:
                   type: number
                   format: double

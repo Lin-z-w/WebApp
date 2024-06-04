@@ -37,9 +37,11 @@ public class RegisterController implements RegisterApi {
 
         if (registered) {
             // 注册成功，返回成功响应
+            System.out.println("User registered successfully.");
             return ResponseEntity.ok(new CreateOrder200ResponseDto().code(1));
         } else {
             // 用户名已存在，返回失败响应
+            System.out.println("Username already exists.");
             return ResponseEntity.badRequest().body(new CreateOrder200ResponseDto().code(0));
         }
     }

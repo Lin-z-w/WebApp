@@ -1,15 +1,20 @@
 package com.example.webapp.service;
 
+import com.example.webapp.model.Order;
 import com.example.webapp.model.Product;
+import com.example.webapp.model.User;
+import com.example.webapp.repository.OrderRepository;
 import com.example.webapp.repository.ProductRepository;
-import com.example.webapp.rest.dto.OrderDto;
+import com.example.webapp.repository.UserRepository;
 import com.example.webapp.rest.dto.OrderListDto;
 import com.example.webapp.rest.dto.OrderListItemsInnerDto;
+import com.example.webapp.utils.DateUtils;
+import com.example.webapp.utils.IDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,14 +23,22 @@ public class OrderService {
 
     private final ProductRepository productRepository;
 
+    private final OrderRepository orderRepository;
+
+    private final UserRepository userRepository;
+
     @Autowired
-    public OrderService(ProductRepository productRepository) {
+    public OrderService(ProductRepository productRepository, OrderRepository orderRepository, UserRepository userRepository) {
         this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
     }
 
 //    @CacheEvict(value = "products", allEntries = true)
     @Transactional
     public void createOrder(OrderListDto orderListDto) {
+        String username = orderListDto.getUsername();
+        User user = userRepository.findByUsername(username);
 
         // 获取订单中所有商品的信息
         List<String> productIds = orderListDto.getItems().stream()
@@ -53,11 +66,22 @@ public class OrderService {
             if (product != null) {
                 product.setQuantity(product.getQuantity() - item.getQuantity());
                 productRepository.updateProductQuantity(product);
+                // 订单创建
+                String orderId = IDUtils.generateUniqueId();
+                String orderDate = DateUtils.getCurrentDate();
+                double totalPrice = item.getQuantity() * product.getPrice();
+                Order order = new Order(orderId, username, orderDate, product.getName(), item.getQuantity(), totalPrice, user.getAddress(), user.getPhone(), product.getImg());
+                orderRepository.save(order);
+                // 更新用户余额
+                user.setBalance(user.getBalance() - totalPrice);
+                userRepository.updateUserBalance(user);
             }
         }
 
-        // 在此处实现订单创建的逻辑，可能涉及到数据库的插入操作等
 
     }
 
+    public List<Order> getOrderList(String username) {
+        return orderRepository.findByUsername(username);
+    }
 }

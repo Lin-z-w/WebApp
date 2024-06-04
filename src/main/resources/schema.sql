@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS products
     img      VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS user
+CREATE TABLE IF NOT EXISTS users
 (
     username VARCHAR(255) PRIMARY KEY,
     password VARCHAR(255) NOT NULL,
@@ -21,7 +21,20 @@ CREATE TABLE IF NOT EXISTS user
     balance  DOUBLE PRECISION DEFAULT 0
 );
 
-INSERT IGNORE INTO user (username, password, email, address, img, phone, balance)
+CREATE TABLE IF NOT EXISTS orders
+(
+    id VARCHAR(255) PRIMARY KEY,
+    orderDate VARCHAR(255),
+    productName VARCHAR(255),
+    quantity INT,
+    totalPrice DOUBLE,
+    address VARCHAR(255),
+    phone VARCHAR(255),
+    img VARCHAR(255)
+);
+
+
+INSERT IGNORE INTO users (username, password, email, address, img, phone, balance)
 VALUES ('admin', '123456', 'admin@localhost', 'admin address', 'admin.jpg', '1234567890', 0);
 
 INSERT IGNORE INTO products (id, name, price, category, quantity, stock, img)
