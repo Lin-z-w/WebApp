@@ -276,6 +276,7 @@ export default {
                         if(response.status == 200){
                             console.log(response);
                             this.$store.commit('setBalance', { 'balance': response.data.data.balance });
+                            this.$message.success("充值成功");
                         }else{
                             alert("充值失败");
                         }
