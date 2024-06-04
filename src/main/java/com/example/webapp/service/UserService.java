@@ -38,11 +38,12 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void recharge(String username, Double amount) {
+    public double recharge(String username, Double amount) {
         // 充值
         User user = userRepository.findByUsername(username);
         user.setBalance(user.getBalance() + amount);
         userRepository.updateUserBalance(user);
+        return user.getBalance();
     }
 
     public User updateUserInfo(String username, String email, String address, String phone, String img) {

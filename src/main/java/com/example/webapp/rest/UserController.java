@@ -18,7 +18,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<UpdateUserInfo200ResponseDto> getUserInfo(String username) {
-        System.out.println("getUserInfo");
+        System.out.println("getUserInfo username: " + username);
         User user = userService.findUserByUsername(username);
         if (user == null) {
             return new ResponseEntity<>(new UpdateUserInfo200ResponseDto().code(0), HttpStatus.NOT_FOUND);

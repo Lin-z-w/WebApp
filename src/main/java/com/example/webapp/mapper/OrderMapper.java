@@ -11,6 +11,7 @@ public class OrderMapper {
 
     public static OrderDto orderToDto(Order order) {
         OrderDto orderDto = new OrderDto();
+        orderDto.setProductName(order.getProductName());
         orderDto.setOrderDate(order.getOrderDate());
         orderDto.setQuantity(order.getQuantity());
         orderDto.setAddress(order.getAddress());

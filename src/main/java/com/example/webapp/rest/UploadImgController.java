@@ -37,6 +37,7 @@ public class UploadImgController implements UploadImageApi {
 
     @Override
     public ResponseEntity<UploadImage200ResponseDto> uploadImage(MultipartFile file) {
+        System.out.println("Uploading file: " + file.getOriginalFilename());
         try {
             // 初始化 MinIO 客户端
             MinioClient minioClient = MinioClient.builder()

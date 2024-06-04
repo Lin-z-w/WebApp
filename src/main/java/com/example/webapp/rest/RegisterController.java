@@ -19,10 +19,9 @@ public class RegisterController implements RegisterApi {
         this.userService = userService;
     }
 
-
-
     @Override
     public ResponseEntity<CreateOrder200ResponseDto> registerUser(RegisterUserRequestDto registerUserRequestDto) {
+        System.out.println("Registering user with request: " + registerUserRequestDto);
         String username = registerUserRequestDto.getUsername();
         String password = registerUserRequestDto.getPassword();
         String email = registerUserRequestDto.getEmail();

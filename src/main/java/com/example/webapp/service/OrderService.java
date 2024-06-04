@@ -43,8 +43,10 @@ public class OrderService {
         // 获取订单中所有商品的信息
         List<String> productIds = orderListDto.getItems().stream()
                 .map(OrderListItemsInnerDto::getId)
-                .collect(Collectors.toList());
-        List<Product> products = productRepository.getProductByIds(productIds);
+                .toList();
+        List<Product> products = productIds.stream()
+                .map(productRepository::getProductById)
+                .toList();
 
         // 检查每个商品的库存是否足够
         for (OrderListItemsInnerDto item : orderListDto.getItems()) {
@@ -52,7 +54,7 @@ public class OrderService {
                     .filter(p -> p.getId().equals(item.getId()))
                     .findFirst()
                     .orElse(null);
-            if (product == null || product.getQuantity() < item.getQuantity()) {
+            if (product == null || product.getStock() < item.getQuantity()) {
                 throw new IllegalArgumentException("Product with ID " + item.getId() + " does not have enough stock.");
             }
         }
@@ -64,7 +66,7 @@ public class OrderService {
                     .findFirst()
                     .orElse(null);
             if (product != null) {
-                product.setQuantity(product.getQuantity() - item.getQuantity());
+                product.setStock(product.getStock() - item.getQuantity());
                 productRepository.updateProductQuantity(product);
                 // 订单创建
                 String orderId = IDUtils.generateUniqueId();

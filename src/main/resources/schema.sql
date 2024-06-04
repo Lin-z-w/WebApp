@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS users
 CREATE TABLE IF NOT EXISTS orders
 (
     id          VARCHAR(255) PRIMARY KEY,
+    username    VARCHAR(255) NOT NULL,
     orderDate   VARCHAR(255),
     productName VARCHAR(255),
     quantity    INT,

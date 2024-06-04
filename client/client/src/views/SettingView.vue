@@ -46,7 +46,7 @@
 
         <el-dialog :visible.sync="rechargeFormVisible" title="充值" :close-on-click-modal="false">
             <el-form ref="form" :model="money" label-width="80px">
-                <el-form-item label="充值金额" prop="money" :rules="[
+                <el-form-item label="充值金额" prop="amount" :rules="[
                     { required: true, message: '价格不能为空'},
                     { type: 'number', message: '价格必须为数字值'}
                     ]"
@@ -220,7 +220,7 @@ export default {
                 img: this.$store.state.user.img
             },
             money: {
-                amount: 0.0,
+                amount: 0,
                 username: '',
             }
         }
@@ -266,7 +266,7 @@ export default {
             this.money.username = this.$store.state.user.username;
             this.$refs.form.validate(valid => {
                 if (valid) {
-                    axios.post(this.$store.state.backendPort + '/user', this.money, {
+                    axios.post(this.$store.state.backendPort + '/recharge', this.money, {
                         headers: {
                             'Content-Type': 'application/json',
                             'token': this.$store.state.user.token,
@@ -274,12 +274,14 @@ export default {
                     )
                     .then(response => {
                         if(response.status == 200){
+                            console.log(response);
                             this.$store.commit('setBalance', { 'balance': response.data.data.balance });
                         }else{
                             alert("充值失败");
                         }
                     })
                     .catch(error => {
+                        console.log(error);
                         if(error.response.data.code == -2){
                             this.$message('用户尚未登录！');
                             this.$router.push('/login');

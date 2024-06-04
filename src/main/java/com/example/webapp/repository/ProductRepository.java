@@ -24,8 +24,15 @@ public interface ProductRepository {
     @Select("SELECT * FROM products WHERE name LIKE CONCAT('%', #{name}, '%')")
     List<Product> findByNameContaining(@Param("name") String name);
 
-    @Select("SELECT * FROM products WHERE id IN (#{productIds}) for update")
-    List<Product> getProductByIds(List<String> productIds);
+//    @Select("<script>" +
+//            "SELECT * FROM products WHERE id IN " +
+//            "<foreach item='item' index='index' collection='productIds' open='(' separator=',' close=')'>" +
+//            "#{item}" +
+//            "</foreach>" +
+//            "for update" +
+//            "</script>")
+//    List<Product> getProductByIds(List<String> productIds);
+
 
     @Select("SELECT * FROM products WHERE category = #{categoryName}")
     List<Product> getProductsByCategory(String categoryName);
