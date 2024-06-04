@@ -2,7 +2,6 @@ package com.example.webapp.rest;
 
 import com.example.webapp.rest.api.OrderApi;
 import com.example.webapp.rest.dto.CreateOrder200ResponseDto;
-import com.example.webapp.rest.dto.OrderDto;
 import com.example.webapp.rest.dto.OrderListDto;
 import com.example.webapp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +17,6 @@ public class OrderController implements OrderApi {
     @Autowired
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
-    }
-
-    @Override
-    public ResponseEntity<OrderDto> showOrderById(String orderId) {
-        return OrderApi.super.showOrderById(orderId);
     }
 
     @Override
