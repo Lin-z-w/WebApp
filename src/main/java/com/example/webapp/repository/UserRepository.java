@@ -11,6 +11,6 @@ public interface UserRepository {
     @Select("SELECT * FROM user WHERE username = #{username}")
     User findByUsername(String username);
 
-    @Insert("INSERT INTO user (id,username, password) VALUES (#{id}, #{username}, #{password})")
+    @Insert("INSERT INTO user (username, password, email, address, img, balance) VALUES (#{username}, #{password}, #{email}, #{address}, #{img}, #{balance})")
     void save(User user);
 }

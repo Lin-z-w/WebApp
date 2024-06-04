@@ -27,10 +27,6 @@ public class UserService {
             // 如果存在，返回 false
             return false;
         } else {
-            // 如果不存在，生成用户ID
-            String userId = generateUniqueId();
-            // 设置用户ID
-            user.setId(userId);
             // 保存用户
             userRepository.save(user);
             return true;

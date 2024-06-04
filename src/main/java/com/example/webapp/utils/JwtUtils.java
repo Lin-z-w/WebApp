@@ -29,7 +29,7 @@ public class JwtUtils {
     }
 
     // 生成 JWT 令牌
-    public static String generateToken(String username, String userId) {
+    public static String generateToken(String username) {
         // 设置过期时间，这里设置为 1 小时后过期
         Date expirationDate = new Date(System.currentTimeMillis() + 3600 * 1000);
 
@@ -40,7 +40,6 @@ public class JwtUtils {
         // 使用 JJWT 库生成 JWT
         String token = Jwts.builder()
                 .claim("username", username) // 将用户名放入 JWT
-                .claim("userId", userId) // 将用户ID放入 JWT
                 .setExpiration(expirationDate) // 设置 JWT 过期时间
                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS256) // 使用指定的密钥和签名算法签名 JWT
                 .setHeader(headerMap) // 设置 JWT 头部

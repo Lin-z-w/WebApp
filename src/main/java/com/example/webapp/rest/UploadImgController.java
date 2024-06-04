@@ -47,6 +47,7 @@ public class UploadImgController implements UploadImageApi {
             // 检查桶是否存在，如果不存在则创建它
             boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
             if (!found) {
+                System.out.println("Creating bucket " + bucketName);
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
 
                 // 设置存储桶策略

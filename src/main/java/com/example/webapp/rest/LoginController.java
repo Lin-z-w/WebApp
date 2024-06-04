@@ -1,7 +1,9 @@
 package com.example.webapp.rest;
 
+import com.example.webapp.mapper.UserMapper;
 import com.example.webapp.model.User;
 import com.example.webapp.rest.api.LoginApi;
+import com.example.webapp.rest.dto.LoginUser200ResponseDataDto;
 import com.example.webapp.rest.dto.LoginUserRequestDto;
 import com.example.webapp.rest.dto.LoginUser200ResponseDto;
 import com.example.webapp.service.UserService;
@@ -30,12 +32,15 @@ public class LoginController implements LoginApi {
 
         if (user != null && user.getPassword().equals(loginUserRequestDto.getPassword())) {
             // 登录成功，生成 JWT token
-            String jwtToken = generateToken(loginUserRequestDto.getUsername(), user.getId());
+            String jwtToken = generateToken(loginUserRequestDto.getUsername());
 
             // 返回登录成功的响应
             LoginUser200ResponseDto responseDto = new LoginUser200ResponseDto();
             responseDto.setCode(1);
-            responseDto.setData(jwtToken);
+            LoginUser200ResponseDataDto data = new LoginUser200ResponseDataDto();
+            data.setToken(jwtToken);
+            data.setUserInfo(UserMapper.userToDto(user));
+            responseDto.setData(data);
             return ResponseEntity.ok(responseDto);
         } else {
             // 登录失败，返回登录失败的响应

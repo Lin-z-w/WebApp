@@ -345,6 +345,87 @@ paths:
                   code:
                     type: integer
                     example: -1
+  /user:
+    post:
+      summary: 修改用户信息接口
+      operationId: updateUserInfo
+      tags:
+        - user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+                address:
+                  type: string
+                img:
+                  type: string
+              required:
+                - username
+      responses:
+        '200':
+          description: 修改成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 1
+        '401':
+          description: 修改失败
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+  /user/{username}:
+    get:
+      summary: 获取用户名为username的用户信息
+      operationId: getUserInfo
+      tags:
+        - user
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: 用户名
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 用户信息
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 1
+                  data:
+                    $ref: "#/components/schemas/User"
+        '404':
+          description: 用户不存在
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
 
   /uploadImage:
     post:
