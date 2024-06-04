@@ -13,9 +13,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>webpos</name>
     <description>Demo project for MVC</description>
+
     <properties>
         <java.version>21</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -115,11 +117,12 @@
             <version>0.12.3</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.aliyun.oss/aliyun-sdk-oss -->
+        <!-- MinIO Java SDK -->
+        <!-- https://mvnrepository.com/artifact/io.minio/minio -->
         <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-            <version>3.17.1</version>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.10</version>
         </dependency>
     </dependencies>
 

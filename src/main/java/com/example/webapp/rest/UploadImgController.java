@@ -2,62 +2,117 @@ package com.example.webapp.rest;
 
 import com.example.webapp.rest.api.UploadImageApi;
 import com.example.webapp.rest.dto.UploadImage200ResponseDto;
+import io.minio.*;
+import io.minio.errors.MinioException;
+import io.minio.http.Method;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.util.StringUtils;
 
+import java.io.InputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class UploadImgController implements UploadImageApi {
 
-    // 文件上传目录路径
-    private static final String UPLOAD_DIR = "src/main/resources/static/";
+    @Value("${minio.endpoint}")
+    private String endpoint;
+
+    @Value("${minio.accessKey}")
+    private String accessKey;
+
+    @Value("${minio.secretKey}")
+    private String secretKey;
+
+    @Value("${minio.bucketName}")
+    private String bucketName;
+
+    @Value("${minio.externalEndpoint}")
+    private String externalEndpoint;
 
     @Override
     public ResponseEntity<UploadImage200ResponseDto> uploadImage(MultipartFile file) {
-        System.out.println("uploadImage");
         try {
-            // 获取文件名
-            String originalFileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+            // 初始化 MinIO 客户端
+            MinioClient minioClient = MinioClient.builder()
+                    .endpoint(endpoint)
+                    .credentials(accessKey, secretKey)
+                    .build();
 
-            // 生成唯一文件名
-            String uniqueFileName = generateUniqueFileName(originalFileName);
+            // 检查桶是否存在，如果不存在则创建它
+            boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+            if (!found) {
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
 
-            // 检查上传目录是否存在，不存在则创建
-            Path uploadPath = Paths.get(UPLOAD_DIR);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
+                // 设置存储桶策略
+                String policy = "{\n" +
+                        "    \"Version\":\"2012-10-17\",\n" +
+                        "    \"Statement\":[\n" +
+                        "        {\n" +
+                        "            \"Sid\":\"PublicRead\",\n" +
+                        "            \"Effect\":\"Allow\",\n" +
+                        "            \"Principal\":\"*\",\n" +
+                        "            \"Action\":[\"s3:GetObject\"],\n" +
+                        "            \"Resource\":[\"arn:aws:s3:::" + bucketName + "/*\"]\n" +
+                        "        }\n" +
+                        "    ]\n" +
+                        "}";
+                minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(policy).build());
             }
 
-            // 保存文件到上传目录
-            Path filePath = uploadPath.resolve(uniqueFileName);
-            Files.copy(file.getInputStream(), filePath);
 
-            // 构造返回的图片 URL
-            String url = "http://localhost:3000/" + uniqueFileName;
+            // 上传文件到桶
+            String objectName = file.getOriginalFilename();
+            try (InputStream inputStream = file.getInputStream()) {
+                minioClient.putObject(
+                        PutObjectArgs.builder()
+                                .bucket(bucketName)
+                                .object(objectName)
+                                .stream(inputStream, file.getSize(), -1)
+                                .contentType(file.getContentType())
+                                .build()
+                );
+            }
 
-            System.out.println(url);
+            // 构建文件的 URL
+            String fileUrl = minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Method.GET)
+                            .bucket(bucketName)
+                            .object(objectName)
+                            .expiry(7, TimeUnit.DAYS)
+                            .build()
+            );
 
-            return ResponseEntity.ok(new UploadImage200ResponseDto().code(1).data(url));
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to upload image", e);
+            // 替换预签名 URL 的主机部分
+            URL url = new URL(fileUrl);
+            String externalUrl = new URL(url.getProtocol(), externalEndpoint, url.getPort(), url.getFile()).toString();
+
+            // 创建响应对象
+            UploadImage200ResponseDto responseDto = new UploadImage200ResponseDto();
+            responseDto.setCode(1);
+            responseDto.setData(externalUrl);
+
+            System.out.println("Upload successful: " + externalUrl);
+
+            // 返回成功响应
+            return ResponseEntity.ok(responseDto);
+
+        } catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+
+            // 创建失败响应对象
+            UploadImage200ResponseDto responseDto = new UploadImage200ResponseDto();
+            responseDto.setCode(0);
+            responseDto.setData("Upload failed");
+
+            // 返回失败响应
+            return ResponseEntity.status(500).body(responseDto);
         }
-    }
-
-    // 生成唯一文件名
-    private String generateUniqueFileName(String originalFileName) {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
-        String timestamp = now.format(formatter);
-        String extension = StringUtils.getFilenameExtension(originalFileName);
-        return timestamp + "_" + originalFileName;
     }
 }
