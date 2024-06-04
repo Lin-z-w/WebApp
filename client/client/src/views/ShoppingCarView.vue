@@ -129,7 +129,7 @@
                         </el-pagination>
                     </el-footer>
                     <el-footer class="footer">
-                        <div><el-button type="success" style="line-height: 20px; font-size: 30px; font-weight: 1000" @click="purchase">付款购买</el-button></div>
+                        <div><el-button type="success" style="line-height: 20px; font-size: 30px; font-weight: 1000" @click="purchase()">付款购买</el-button></div>
                         <div>
                             <span style="line-height: 60px; font-size: 40px; font-weight: 1000">当前已选择商品总价：</span>
                             <span style="line-height: 60px; font-size: 40px; font-weight: 1000; color: red">{{ $store.state.totalPrice }}</span>
@@ -245,7 +245,25 @@ export default {
             return name.length > maxLength ? name.slice(0, maxLength) + '...' : name;
         },
         purchase(){
-
+            if(this.$store.state.totalPrice <= -1){
+                this.$message("未购买任何物品");
+                return;
+            }
+            this.$confirm('是否确认购买', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
         }
     },
     mounted() {
