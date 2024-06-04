@@ -182,13 +182,14 @@ export default {
                 'token': this.$store.state.user.token,
             }
         }).then((result) => {
-            if(result.status == -2){
+            this.tableData = result.data;
+        }).catch(error => {
+            if(error.data.code == -2){
                 this.$message('用户尚未登录！');
                 this.$router.push('/login');
-                return
+                return;
             }
-            this.tableData = result.data;
-        })
+        });
     },
 }
 </script>

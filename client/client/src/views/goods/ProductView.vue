@@ -270,13 +270,12 @@ export default {
                     )
                     .then(response => {
                         console.log(response.data.data);
-                        if(response.status == -2){
+                    })
+                    .catch(error => {
+                        if(error.data.code == -2){
                             this.$message('用户尚未登录！');
                             this.$router.push('/login');
                         }
-                    })
-                    .catch(error => {
-                        console.log('error ' + error);
                     });
                 } else {
                     console.log('upload fail');
@@ -307,12 +306,6 @@ export default {
                 'token': this.$store.state.user.token,
             }}
         ).then((result) => {
-            if(result.status == -2){
-                this.$message('用户尚未登录！');
-                this.$router.push('/login');
-                return;
-            }
-
             this.products = result.data;
 
             this.showProduct = this.products[0];
@@ -328,6 +321,13 @@ export default {
                 })
             });
         })
+        .catch(error => {
+            if(error.data.code == -2){
+                this.$message('用户尚未登录！');
+                this.$router.push('/login');
+                return;
+            }
+        });
     },
 }
 </script>

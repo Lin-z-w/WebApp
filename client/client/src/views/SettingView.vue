@@ -237,15 +237,16 @@ export default {
                     .then(response => {
                         if(response.status == 200){
                             this.$store.commit('setUser', { 'token': this.$store.state.user.token, 'userInfo': response.data.data });
-                        }else if(response.status == -2){
-                            this.$message('用户尚未登录！');
-                            this.$router.push('/login');
                         }else{
                             alert("提交失败");
                         }
                     })
                     .catch(error => {
-                        console.log('error ' + error);
+                        if(error.data.code == -2){
+                            this.$message('用户尚未登录！');
+                            this.$router.push('/login');
+                            return;
+                        }
                     });
                 } else {
                     console.log('upload fail');
@@ -274,15 +275,16 @@ export default {
                     .then(response => {
                         if(response.status == 200){
                             this.$store.commit('setBalance', { 'balance': response.data.data.balance });
-                        }else if(response.status == -2){
-                            this.$message('用户尚未登录！');
-                            this.$router.push('/login');
                         }else{
                             alert("充值失败");
                         }
                     })
                     .catch(error => {
-                        console.log('error ' + error);
+                        if(error.data.code == -2){
+                            this.$message('用户尚未登录！');
+                            this.$router.push('/login');
+                            return;
+                        }
                     });
                 } else {
                     console.log('upload fail');
@@ -299,13 +301,14 @@ export default {
                 'token': this.$store.state.user.token,
             }}
         ).then((result) => {
-            if(result.status == -2){
+            this.$store.commit('setUser', { 'token': this.$store.state.user.token, 'userInfo': result.data.data });
+        }).catch(error => {
+            if(error.data.code == -2){
                 this.$message('用户尚未登录！');
                 this.$router.push('/login');
                 return;
             }
-            this.$store.commit('setUser', { 'token': this.$store.state.user.token, 'userInfo': result.data.data });
-        })
+        });
     },
 }
 </script>
