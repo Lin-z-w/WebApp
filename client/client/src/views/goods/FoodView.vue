@@ -264,7 +264,8 @@ export default {
                 if (valid) {
                     axios.post(this.$store.state.backendPort + '/product/uploadProduct', this.form, {
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'token': this.$store.state.user.token,
                         }}
                     )
                     .then(response => {
@@ -297,7 +298,11 @@ export default {
         }
     },
     mounted() {
-        axios.get(this.$store.state.backendPort + "/product").then((result) => {
+        axios.get(this.$store.state.backendPort + "/product", {
+            headers: {
+                'token': this.$store.state.user.token,
+            }
+        }).then((result) => {
             this.products = result.data;
 
             this.showProduct = this.products[0];
