@@ -281,6 +281,58 @@ paths:
                   code:
                     type: integer
                     example: -1
+  /recharge:
+    post:
+      summary: 充值接口
+      operationId: recharge
+      tags:
+        - user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  format: double
+              required:
+                - amount
+      responses:
+        '200':
+          description: 充值成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 1
+                  data:
+                    type: object
+                    properties:
+                      balance:
+                        type: number
+                        format: double
+                        example: 1000.00
+        '401':
+          description: 充值失败
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 0
+        default:
+          description: 未知错误
+          content:
+            application/json:
+              schema:
+                type: object
   /register:
     post:
       summary: 用户注册接口

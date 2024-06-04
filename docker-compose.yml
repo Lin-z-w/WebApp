@@ -126,14 +126,10 @@ services:
       timeout: 5s
       retries: 3
 
-
-  webapp:
+  webapp-0:
     build:
       context: .
       dockerfile: webapp.Dockerfile
-    image: webapp
-
-  webapp-0:
     image: webapp
     cpus: 0.5
     ports:
