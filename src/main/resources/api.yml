@@ -164,29 +164,30 @@ paths:
                     example: 0
                   message:
                     $ref: "#/components/schemas/Error"
-
-  /order/{orderId}:
+  /order/{username}:
     get:
-      summary: 获取订单id为orderId的订单详情
-      operationId: showOrderById
+      summary: 获取用户名为username的订单列表
+      operationId: getOrderList
       tags:
         - order
       parameters:
-        - name: orderId
+        - name: username
           in: path
           required: true
-          description: The id of the order to retrieve
+          description: 用户名
           schema:
             type: string
       responses:
         '200':
-          description: Expected response to a valid request
+          description: 订单列表
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
-        default:
-          description: unexpected error
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+        '404':
+          description: 用户不存在
           content:
             application/json:
               schema:
@@ -564,9 +565,7 @@ components:
       properties:
         orderId:
           type: string
-        username:
-          type: string
-        productId:
+        productName:
           type: string
         quantity:
           type: integer
