@@ -227,6 +227,7 @@ export default {
             },
             money: {
                 amount: 0.0,
+                username: '',
             }
         }
     },
@@ -268,6 +269,7 @@ export default {
             this.form.img = response.data;
         },
         recharge(){
+            this.money.username = this.$store.state.user.username;
             this.$refs.form.validate(valid => {
                 if (valid) {
                     axios.post(this.$store.state.backendPort + '/user', this.money, {
