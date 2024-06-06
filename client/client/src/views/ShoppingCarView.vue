@@ -279,7 +279,10 @@ export default {
                         if(response.status == 200){
                             this.$store.commit('setBalance', { balance: this.$store.state.user.balance - this.$store.state.totalPrice });
                             this.$store.commit('clearCar');
-                            this.$message.success('购买成功');
+                            this.$message({
+                              type: 'success',
+                              message: '购买成功!'
+                            });
                         }
                     })
                     .catch(() => {

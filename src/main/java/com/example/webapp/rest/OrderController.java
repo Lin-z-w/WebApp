@@ -29,7 +29,7 @@ public class OrderController implements OrderApi {
         System.out.println("Creating order: " + orderListDto);
         try {
             orderService.createOrder(orderListDto);
-            return new ResponseEntity<>(new CreateOrder200ResponseDto().code(1), HttpStatus.CREATED);
+            return new ResponseEntity<>(new CreateOrder200ResponseDto().code(1), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("Error creating order: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
